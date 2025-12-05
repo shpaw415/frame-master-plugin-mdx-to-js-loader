@@ -1,0 +1,17 @@
+{
+  "name": "frame-master-plugin-mdx-to-js-loader",
+  "version": "0.1.0",
+  "type": "module",
+  "peerDependencies": {
+    "frame-master": "^2.1.1"
+  },
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@mdx-js/mdx": "^3.1.1"
+  },
+  "module": "index.ts"
+}
