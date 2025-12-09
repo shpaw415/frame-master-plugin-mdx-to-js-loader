@@ -30,13 +30,13 @@ export default function mdxToJsLoaderPlugin(
           const { compile } = await import("@mdx-js/mdx");
           const source = await Bun.file(args.path).text();
           const compiled = await compile(source, {
-            jsx: true,
+            jsx: false,
             jsxImportSource: "react",
             ...mdxOptions,
           });
           return {
             contents: compiled.toString(),
-            loader: "jsx",
+            loader: "js",
           };
         }
       );
