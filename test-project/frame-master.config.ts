@@ -12,7 +12,7 @@ export default {
       version: "1.0.0",
       build: {
         buildConfig: {
-          entrypoints: ["./index.mdx"],
+          entrypoints: ["./test.ts"],
         },
       },
     },
