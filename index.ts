@@ -1,7 +1,7 @@
 import type { FrameMasterPlugin } from "frame-master/plugin/types";
 import { version, name } from "./package.json";
-import type { CompileOptions } from "@mdx-js/mdx";
-import { dirname } from "path";
+import { type CompileOptions, compile } from "@mdx-js/mdx";
+import { VFile } from "vfile";
 
 type mdxToJsLoaderOptions = {
   /**
@@ -18,11 +18,18 @@ export default function mdxToJsLoaderPlugin(
   const MdxToJsPlugin: Bun.BunPlugin = {
     name: "mdx-loader",
     setup(build) {
-      // Handle .mdx file loading directly without custom namespace
+      // Handle mdx/md file loading directly without custom namespace
       build.onLoad({ filter: /\.mdx$/ }, async (args) => {
-        const { compile } = await import("@mdx-js/mdx");
-        const { VFile } = await import("vfile");
-        const source = await Bun.file(args.path).text();
+        if (
+          typeof args.__chainedLoader !== "undefined" &&
+          !(["tsx", "ts", "jsx", "js"] as Array<Bun.Loader>).includes(
+            args.__chainedLoader
+          )
+        )
+          return;
+
+        const source =
+          args.__chainedContents ?? (await Bun.file(args.path).text());
 
         // Create a VFile with the path so MDX knows the file location for imports
         const file = new VFile({ path: args.path, value: source });
